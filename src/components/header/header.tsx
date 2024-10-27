@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
-import { Button } from "./ui/button";
-import { SidebarTrigger } from "./ui/sidebar";
+import { Button } from "../ui/button";
+import { SidebarTrigger } from "../ui/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Header() {
