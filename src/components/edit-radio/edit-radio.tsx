@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioStation } from "@/interfaces/radio-data";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface EditRadioFormProps {
   radio: RadioStation;
@@ -12,10 +12,21 @@ interface EditRadioFormProps {
 
 export function EditRadioForm({ radio, onSave, onCancel }: EditRadioFormProps) {
   const [formData, setFormData] = useState(radio);
+  const [hasChanges, setHasChanges] = useState(false);
+
+  useEffect(() => {
+    const isChanged =
+      formData.name !== radio.name ||
+      formData.url !== radio.url ||
+      formData.homepage !== radio.homepage;
+    setHasChanges(isChanged);
+  }, [formData, radio]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    if (hasChanges) {
+      onSave(formData);
+    }
   };
 
   return (
@@ -52,7 +63,9 @@ export function EditRadioForm({ radio, onSave, onCancel }: EditRadioFormProps) {
           />
         </div>
         <div className="flex gap-2 justify-end">
-          <Button type="submit">Salvar</Button>
+          <Button type="submit" disabled={!hasChanges}>
+            Salvar
+          </Button>
           <Button type="button" variant="outline" onClick={onCancel}>
             Cancelar
           </Button>

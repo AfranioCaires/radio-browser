@@ -17,31 +17,46 @@ export function AdvancedSearch({
   onSearch,
   disabled,
 }: AdvancedSearchProps) {
+  const handleInputChange = (field: keyof SearchParams, value: string) => {
+    onParamChange(field, value.trim());
+  };
+
+  const handleSelectChange = (field: keyof SearchParams, value: string) => {
+    onParamChange(field, value === "__CLEAR__" ? "" : value);
+  };
+
   return (
     <div className="grid w-full items-center gap-3">
       <div className="space-y-1">
         <Input
           type="text"
           value={params.name}
-          onChange={(e) => onParamChange("name", e.target.value)}
+          onChange={(e) => handleInputChange("name", e.target.value)}
           placeholder="Digite o nome da rádio"
         />
       </div>
-      <div className="flex gap-2 items-center">
-        <div className="space-y-1">
+      <div className="flex flex-col gap-2 items-center">
+        <div className="space-y-1 w-full">
           <CountrySelect
             value={params.country}
-            onChange={(value) => onParamChange("country", value)}
+            onChange={(value) => handleSelectChange("country", value)}
           />
         </div>
-        <div className="space-y-1">
+        <div className="space-y-1 w-full">
           <LanguageSelect
             value={params.language}
-            onChange={(value) => onParamChange("language", value)}
+            onChange={(value) => handleSelectChange("language", value)}
           />
         </div>
       </div>
-      <Button onClick={onSearch} className="w-full" disabled={disabled}>
+      <Button
+        onClick={onSearch}
+        className="w-full"
+        disabled={
+          disabled ||
+          (!params.name.trim() && !params.country && !params.language)
+        }
+      >
         Buscar
       </Button>
     </div>

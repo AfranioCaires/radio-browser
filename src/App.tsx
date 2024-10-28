@@ -1,4 +1,4 @@
-import { Header } from "./components/header/header";
+import { Header } from "./components/header";
 import Player from "./components/player/player";
 import { FavoritesList } from "./components/favorites/favorites-list";
 import { Footer } from "./components/footer";

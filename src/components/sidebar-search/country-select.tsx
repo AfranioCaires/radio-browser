@@ -23,10 +23,10 @@ export function CountrySelect({ value, onChange }: CountrySelectProps) {
 
   return (
     <Select value={value || "__CLEAR__"} onValueChange={onChange}>
-      <SelectTrigger>
+      <SelectTrigger className="w-full">
         <SelectValue placeholder="País" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="max-w-56">
         <SelectItem value="__CLEAR__">Todos os países</SelectItem>
         {countries.map((country) => (
           <SelectItem key={country.iso_3166_1} value={country.name}>

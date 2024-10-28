@@ -15,9 +15,15 @@ export function useRadioSearch() {
     offset: 0,
   });
 
-  const debouncedSimpleSearch = useDebounce(state.simpleSearch, 500);
+  const debouncedSimpleSearch = useDebounce(state.simpleSearch.trim(), 500);
 
   const handleSearch = async (params: SearchParams) => {
+    const hasValidParams = Object.values(params).some((value) => value.trim());
+    if (!hasValidParams) {
+      setState((prev) => ({ ...prev, radios: [], loading: false }));
+      return;
+    }
+
     setState((prev) => ({ ...prev, loading: true }));
     const result = await getRadios({ ...params, offset: 0 });
     setState((prev) => ({

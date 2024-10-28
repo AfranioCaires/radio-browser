@@ -10,6 +10,7 @@ import {
   PaginationPrevious,
 } from "../ui/pagination";
 import SearchInput from "../search";
+import useDebounce from "@/hooks/use-debounce";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -17,9 +18,10 @@ export function FavoritesList() {
   const { favorites } = useFavorites();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   const filteredFavorites = favorites.filter((radio) =>
-    radio.name.toLowerCase().includes(searchQuery.toLowerCase())
+    radio.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
   );
 
   if (favorites.length === 0) {

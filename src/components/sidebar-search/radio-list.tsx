@@ -21,7 +21,7 @@ export function RadioList({
   onLoadMore,
   hasSearched = false,
 }: RadioListProps) {
-  const size = tab == "simple" ? "h-[70vh]" : "h-[60vh]";
+  const size = tab == "simple" ? "h-[70vh]" : "h-[55vh]";
   const isMobile = useIsMobile();
 
   if (loading && !radios.length) {

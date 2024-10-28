@@ -25,10 +25,10 @@ export function LanguageSelect({ value, onChange }: LanguageSelectProps) {
 
   return (
     <Select value={value || CLEAR_VALUE} onValueChange={onChange}>
-      <SelectTrigger>
+      <SelectTrigger className="w-full">
         <SelectValue placeholder="Idioma" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="max-w-56">
         <SelectItem value={CLEAR_VALUE}>Todos os idiomas</SelectItem>
         {languages.map((language) => (
           <SelectItem key={language.name} value={language.name}>

@@ -1,4 +1,5 @@
 import { ChevronDown } from "lucide-react";
+import { toast } from "sonner";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,8 +33,14 @@ export function RadioCard(data: RadioStation) {
   const toggleFavorite = () => {
     if (favorite) {
       removeFavorite(data.stationuuid);
+      toast("Rádio removida", {
+        description: `${data.name} foi removida dos favoritos`,
+      });
     } else {
       addFavorite(data);
+      toast("Rádio salva", {
+        description: `${data.name} foi adicionada aos favoritos`,
+      });
     }
   };
 
@@ -76,6 +83,9 @@ export function RadioCard(data: RadioStation) {
           onSave={(updatedRadio) => {
             updateFavorite(updatedRadio);
             updateCurrentRadio(updatedRadio);
+            toast("Rádio atualizada", {
+              description: `${updatedRadio.name} foi atualizada com sucesso`,
+            });
             setEditOpen(false);
           }}
         />
