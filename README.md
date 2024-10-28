@@ -2,7 +2,7 @@
 
 ## Sobre o Projeto
 
-Este projeto é uma aplicação web para descobrir e gerenciar estações de rádio online. Desenvolvido como parte de um desafio técnico, a aplicação permite aos usuários explorar uma vasta coleção de rádios de todo o mundo.
+Uma aplicação web para descobrir e gerenciar estações de rádio online, permitindo aos usuários explorar uma vasta coleção de rádios de todo o mundo.
 
 ## Deploy
 
@@ -66,7 +66,7 @@ Acesse a aplicação em produção: [Radio Browser App](https://radio-browser-ap
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/radio-browser.git
+git clone https://github.com/afraniocaires/radio-browser.git
 ```
 
 2. Instale as dependências:
