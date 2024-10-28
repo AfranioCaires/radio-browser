@@ -2,6 +2,7 @@ import { ScrollArea } from "../ui/scroll-area";
 import { Button } from "../ui/button";
 import { RadioCard } from "./radio-card";
 import { RadioStation } from "@/interfaces/radio-data";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface RadioListProps {
   radios: RadioStation[];
@@ -21,6 +22,7 @@ export function RadioList({
   hasSearched = false,
 }: RadioListProps) {
   const size = tab == "simple" ? "h-[70vh]" : "h-[60vh]";
+  const isMobile = useIsMobile();
 
   if (loading && !radios.length) {
     return (
@@ -36,6 +38,15 @@ export function RadioList({
         <p className="text-muted-foreground mb-2">
           Digite o nome da rádio para começar.
         </p>
+        {!isMobile && (
+          <p className="text-sm text-muted-foreground">
+            Pressione{" "}
+            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+              <span className="text-xs">⌘</span> b
+            </kbd>{" "}
+            para fechar o painel.
+          </p>
+        )}
       </div>
     );
   }

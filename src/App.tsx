@@ -1,20 +1,20 @@
+import { ThemeModeToggle } from "./components/dark-theme/mode-toggle";
 import { Header } from "./components/header/header";
+import Player from "./components/player/player";
+import { FavoritesList } from "./components/favorites/favorites-list";
 
 function App() {
   return (
-    <>
-      <div className="w-full">
-        <Header />
-        <main className="container mx-auto mt-2 p-2">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-            commodi repellendus voluptatum nemo perferendis dolore. Quidem,
-            accusamus? Cum, hic vero, porro provident officiis consectetur sit
-            nesciunt animi, mollitia corporis voluptatum?
-          </p>
-        </main>
-      </div>
-    </>
+    <div className="w-full">
+      <Header />
+      <main className="container mx-auto space-y-5 mt-2 p-2">
+        <Player />
+        <section className="space-y-4">
+          <FavoritesList />
+        </section>
+        <ThemeModeToggle />
+      </main>
+    </div>
   );
 }
 
