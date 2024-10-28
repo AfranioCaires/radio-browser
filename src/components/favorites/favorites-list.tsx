@@ -1,4 +1,4 @@
-import { RadioCard } from "../sidebar-search/radio-card";
+import { RadioCard } from "../radio-card/radio-card";
 import { useFavorites } from "@/contexts/favorites-context";
 import { useState } from "react";
 import {
@@ -9,12 +9,18 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
+import SearchInput from "../search";
 
 const ITEMS_PER_PAGE = 10;
 
 export function FavoritesList() {
   const { favorites } = useFavorites();
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredFavorites = favorites.filter((radio) =>
+    radio.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (favorites.length === 0) {
     return (
@@ -27,58 +33,74 @@ export function FavoritesList() {
     );
   }
 
-  const totalPages = Math.max(Math.ceil(favorites.length / ITEMS_PER_PAGE), 1);
+  const totalPages = Math.max(
+    Math.ceil(filteredFavorites.length / ITEMS_PER_PAGE),
+    1
+  );
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentFavorites = favorites.slice(startIndex, endIndex);
+  const currentFavorites = filteredFavorites.slice(startIndex, endIndex);
 
   return (
-    <div className="grid gap-4">
-      <h1 className="text-2xl space-x-4 font-medium">Rádios favoritas</h1>
-      <div className="space-y-4">
-        {currentFavorites.map((radio) => (
-          <RadioCard key={radio.stationuuid} {...radio} />
-        ))}
+    <div className="flex flex-col h-screen gap-4">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl space-x-4 font-medium">Rádios favoritas</h1>
+        <SearchInput onSearch={setSearchQuery} />
       </div>
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              aria-disabled={currentPage <= 1}
-              tabIndex={currentPage <= 1 ? -1 : undefined}
-              className={
-                currentPage <= 1 ? "pointer-events-none opacity-50" : undefined
-              }
-              onClick={() => setCurrentPage(currentPage - 1)}
-            />
-          </PaginationItem>
-          {[...Array(totalPages)].map((_, i) => {
-            const page = i + 1;
-            return (
-              <PaginationItem key={page}>
-                <PaginationLink
-                  onClick={() => setCurrentPage(page)}
-                  isActive={currentPage === page}
-                >
-                  {page}
-                </PaginationLink>
+      {filteredFavorites.length === 0 ? (
+        <div className="text-center text-muted-foreground py-8">
+          <p>Nenhuma rádio encontrada com esse termo.</p>
+        </div>
+      ) : (
+        <>
+          <div className="space-y-4">
+            {currentFavorites.map((radio) => (
+              <RadioCard key={radio.stationuuid} {...radio} />
+            ))}
+          </div>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  aria-disabled={currentPage <= 1}
+                  tabIndex={currentPage <= 1 ? -1 : undefined}
+                  className={
+                    currentPage <= 1
+                      ? "pointer-events-none opacity-50"
+                      : undefined
+                  }
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                />
               </PaginationItem>
-            );
-          })}
-          <PaginationItem>
-            <PaginationNext
-              onClick={() => setCurrentPage(currentPage + 1)}
-              aria-disabled={currentPage === totalPages}
-              tabIndex={currentPage <= 1 ? -1 : undefined}
-              className={
-                currentPage === totalPages
-                  ? "pointer-events-none opacity-50"
-                  : undefined
-              }
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+              {[...Array(totalPages)].map((_, i) => {
+                const page = i + 1;
+                return (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      onClick={() => setCurrentPage(page)}
+                      isActive={currentPage === page}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              })}
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  aria-disabled={currentPage === totalPages}
+                  tabIndex={currentPage === totalPages ? -1 : undefined}
+                  className={
+                    currentPage === totalPages
+                      ? "pointer-events-none opacity-50"
+                      : undefined
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </>
+      )}
     </div>
   );
 }

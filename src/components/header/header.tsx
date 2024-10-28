@@ -1,7 +1,6 @@
-import { Search } from "lucide-react";
-import { Button } from "../ui/button";
 import { SidebarTrigger } from "../ui/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { ThemeModeToggle } from "../dark-theme/mode-toggle";
 
 export function Header() {
   const isMobile = useIsMobile();
@@ -15,9 +14,7 @@ export function Header() {
           <div className="text-lg font-bold md:text-xl">Radio Browser</div>
         </div>
         <div className="flex-1 flex justify-end">
-          <Button variant="ghost" size="icon" aria-label="Search">
-            {isMobile && <Search className="h-6 w-6" />}
-          </Button>
+          <ThemeModeToggle />
         </div>
       </div>
     </header>

@@ -6,15 +6,15 @@ import { FavoritesProvider } from "./favorites-context";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <SidebarProvider>
+    <SidebarProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <PlayerProvider>
           <FavoritesProvider>
             <AppSidebar />
             {children}
           </FavoritesProvider>
         </PlayerProvider>
-      </SidebarProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </SidebarProvider>
   );
 }

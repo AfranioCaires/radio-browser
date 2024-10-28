@@ -1,6 +1,6 @@
 import { ScrollArea } from "../ui/scroll-area";
 import { Button } from "../ui/button";
-import { RadioCard } from "./radio-card";
+import { RadioCard } from "../radio-card/radio-card";
 import { RadioStation } from "@/interfaces/radio-data";
 import { useIsMobile } from "@/hooks/use-mobile";
 

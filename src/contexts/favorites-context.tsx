@@ -1,56 +1,61 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { RadioStation } from "@/interfaces/radio-data";
 
-type FavoritesContextType = {
+interface FavoritesContextData {
   favorites: RadioStation[];
   addFavorite: (radio: RadioStation) => void;
-  removeFavorite: (stationuuid: string) => void;
-  isFavorite: (stationuuid: string) => boolean;
-};
+  removeFavorite: (id: string) => void;
+  isFavorite: (id: string) => boolean;
+  updateFavorite: (radio: RadioStation) => void;
+}
 
-const FavoritesContext = createContext<FavoritesContextType | null>(null);
-
-const STORAGE_KEY = "radio-browser:favorites";
+const FavoritesContext = createContext<FavoritesContextData>(
+  {} as FavoritesContextData
+);
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const [favorites, setFavorites] = useState<RadioStation[]>(() => {
-    if (typeof window === "undefined") return [];
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
+    const stored = localStorage.getItem("@radio-app:favorites");
+    if (stored) {
+      return JSON.parse(stored);
+    }
+    return [];
   });
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
+    localStorage.setItem("@radio-app:favorites", JSON.stringify(favorites));
   }, [favorites]);
 
   const addFavorite = (radio: RadioStation) => {
-    setFavorites((prev) => {
-      if (prev.some((fav) => fav.stationuuid === radio.stationuuid)) {
-        return prev;
-      }
-      return [...prev, radio];
-    });
+    setFavorites((prev) => [...prev, radio]);
   };
 
-  const removeFavorite = (stationuuid: string) => {
+  const removeFavorite = (id: string) => {
+    setFavorites((prev) => prev.filter((radio) => radio.stationuuid !== id));
+  };
+
+  const isFavorite = (id: string) => {
+    return favorites.some((radio) => radio.stationuuid === id);
+  };
+
+  const updateFavorite = (updatedRadio: RadioStation) => {
     setFavorites((prev) =>
-      prev.filter((radio) => radio.stationuuid !== stationuuid)
+      prev.map((radio) =>
+        radio.stationuuid === updatedRadio.stationuuid ? updatedRadio : radio
+      )
     );
   };
 
-  const isFavorite = (stationuuid: string) => {
-    return favorites.some((radio) => radio.stationuuid === stationuuid);
-  };
-
-  const value = {
-    favorites,
-    addFavorite,
-    removeFavorite,
-    isFavorite,
-  };
-
   return (
-    <FavoritesContext.Provider value={value}>
+    <FavoritesContext.Provider
+      value={{
+        favorites,
+        addFavorite,
+        removeFavorite,
+        isFavorite,
+        updateFavorite,
+      }}
+    >
       {children}
     </FavoritesContext.Provider>
   );
@@ -58,8 +63,10 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
 
 export function useFavorites() {
   const context = useContext(FavoritesContext);
+
   if (!context) {
     throw new Error("useFavorites must be used within a FavoritesProvider");
   }
+
   return context;
 }

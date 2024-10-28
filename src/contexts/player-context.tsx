@@ -9,6 +9,7 @@ interface PlayerContextType {
   togglePlayPause: () => void;
   stopAudio: () => void;
   handleVolumeChange: (volume: number) => void;
+  updateCurrentRadio: (radio: RadioStation) => void;
 }
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
@@ -58,6 +59,12 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     audioRef.current.volume = newVolume;
   };
 
+  const updateCurrentRadio = (updatedRadio: RadioStation) => {
+    if (currentRadio?.stationuuid === updatedRadio.stationuuid) {
+      setCurrentRadio(updatedRadio);
+    }
+  };
+
   return (
     <PlayerContext.Provider
       value={{
@@ -68,6 +75,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         togglePlayPause,
         stopAudio,
         handleVolumeChange,
+        updateCurrentRadio,
       }}
     >
       {children}
@@ -78,8 +86,10 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
 export function usePlayer() {
   const context = useContext(PlayerContext);
+
   if (!context) {
     throw new Error("usePlayer must be used within a PlayerProvider");
   }
+
   return context;
 }

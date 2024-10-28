@@ -1,7 +1,7 @@
-import { ThemeModeToggle } from "./components/dark-theme/mode-toggle";
 import { Header } from "./components/header/header";
 import Player from "./components/player/player";
 import { FavoritesList } from "./components/favorites/favorites-list";
+import { Footer } from "./components/footer";
 
 function App() {
   return (
@@ -12,8 +12,8 @@ function App() {
         <section className="space-y-4">
           <FavoritesList />
         </section>
-        <ThemeModeToggle />
       </main>
+      <Footer />
     </div>
   );
 }
