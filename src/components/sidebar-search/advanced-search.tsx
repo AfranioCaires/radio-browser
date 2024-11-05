@@ -18,7 +18,7 @@ export function AdvancedSearch({
   disabled,
 }: AdvancedSearchProps) {
   const handleInputChange = (field: keyof SearchParams, value: string) => {
-    onParamChange(field, value.trim());
+    onParamChange(field, value.length === 0 ? value.trim() : value);
   };
 
   const handleSelectChange = (field: keyof SearchParams, value: string) => {
