@@ -37,6 +37,7 @@ export function useRadioSearch() {
 
   useEffect(() => {
     if (!debouncedSimpleSearch) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState((prev) => ({ ...prev, radios: [] }));
       return;
     }

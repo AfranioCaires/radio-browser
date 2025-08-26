@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioStation } from "@/interfaces/radio-data";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface EditRadioFormProps {
   radio: RadioStation;
@@ -12,15 +12,11 @@ interface EditRadioFormProps {
 
 export function EditRadioForm({ radio, onSave, onCancel }: EditRadioFormProps) {
   const [formData, setFormData] = useState(radio);
-  const [hasChanges, setHasChanges] = useState(false);
 
-  useEffect(() => {
-    const isChanged =
-      formData.name !== radio.name ||
-      formData.url !== radio.url ||
-      formData.homepage !== radio.homepage;
-    setHasChanges(isChanged);
-  }, [formData, radio]);
+  const hasChanges =
+    formData.name !== radio.name ||
+    formData.url !== radio.url ||
+    formData.homepage !== radio.homepage;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
