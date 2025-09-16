@@ -654,7 +654,7 @@ const SidebarMenuSkeleton = React.forwardRef<
     showIcon?: boolean;
   }
 >(({ className, showIcon = false, ...props }, ref) => {
-  // Fixed width for skeleton.
+  // Use a fixed width to ensure stable hydration and pure rendering.
   const width = "80%";
 
   return (
