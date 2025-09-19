@@ -35,10 +35,10 @@ Acesse a aplicação em produção: [Radio Browser App](https://radio-browser-ap
 ## Tecnologias Utilizadas
 
 ### Core
-- React
-- TypeScript
-- Vite
-- TailwindCSS
+- React 19
+- TypeScript 6
+- Vite 8
+- TailwindCSS v4
 
 ### UI
 - Radix UI
